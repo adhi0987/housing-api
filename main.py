@@ -4,11 +4,21 @@ import pickle
 import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel
-
+from fastapi.middleware.cors import CORSMiddleware
+# allowing host
+origins = ['*']
+#middle ware
 # 1. Initialize the FastAPI app
 app = FastAPI(title="California Housing Price Predictor", version="1.0")
 
 # 2. Load the trained model
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"], # Allows all methods
+    allow_headers=["*"], # Allows all headers
+)
 # Make sure 'linear_regression_model.pkl' is in the same directory
 try:
     with open('linear_reg_model.pkl', 'rb') as file:
